@@ -14,15 +14,16 @@ int main() {
     printf("                         Super Trunfo - Cartas\n");
     printf("===========================================================================\n");
 
+    // --- Dados Carta 1 ---
     printf("Insira uma letra de 'A' a 'H' para representar o primeiro estado. \nEstado: ");
     scanf(" %c", &estado1);
 
-    printf("\nInsira a letra do estado, ja fornecida anteriormente seguida de um numero de 01 a 04 ex:(a01). \nCodigo: ");
+    printf("\nInsira a letra do estado seguida de um numero de 01 a 04 ex:(a01). \nCodigo: ");
     scanf("%3s", codigo1);
 
     getchar();
     printf("\nInsira o nome da primeira cidade: \nCidade: ");
-    fgets(cidade1, sizeof(cidade1),stdin);
+    fgets(cidade1, sizeof(cidade1), stdin);
     cidade1[strcspn(cidade1, "\n")] = 0;
 
     printf("\nInsira a quantidade de Habitantes da cidade. \nHabitantes: ");
@@ -31,12 +32,13 @@ int main() {
     printf("\nInsira a area da cidade em km2. \nArea: ");
     scanf("%f", &area1);
 
-    printf("\nInsira o Produto Interno Bruto da cidade. \nPIB: ");
+    printf("\nInsira o Produto Interno Bruto da cidade (em milhões). \nPIB: ");
     scanf("%f", &pib1);
 
     printf("\nInsira a quantidade de pontos turisticos da cidade. \nPontos Turisticos: ");
     scanf("%d", &pontos1);
 
+    // --- Dados Carta 2 ---
     printf("===========================================================================\n");
     printf("                       Insira os Dados para a Carta 2\n");
     printf("===========================================================================\n");
@@ -44,12 +46,12 @@ int main() {
     printf("Insira uma letra de 'A' a 'H' para representar o segundo estado. \nEstado: ");
     scanf(" %c", &estado2);
 
-    printf("\nInsira a letra do estado, ja fornecida anteriormente seguida de um numero de 01 a 04 ex:(a01). \nCodigo: ");
+    printf("\nInsira a letra do estado seguida de um numero de 01 a 04 ex:(a01). \nCodigo: ");
     scanf("%3s", codigo2);
 
     getchar();
     printf("\nInsira o nome da segunda cidade. \nCidade: ");
-    fgets(cidade2, sizeof(cidade2),stdin);
+    fgets(cidade2, sizeof(cidade2), stdin);
     cidade2[strcspn(cidade2, "\n")] = 0;
 
     printf("\nInsira a quantidade de Habitantes da cidade. \nHabitantes: ");
@@ -58,23 +60,26 @@ int main() {
     printf("\nInsira a area da cidade em km2. \nArea: ");
     scanf("%f", &area2);
 
-    printf("\nInsira o Produto Interno Bruto da cidade. \nPIB: ");
+    printf("\nInsira o Produto Interno Bruto da cidade (em milhões). \nPIB: ");
     scanf("%f", &pib2);
 
     printf("\nInsira a quantidade de pontos turisticos da cidade. \nPontos Turisticos: ");
     scanf("%d", &pontos2);
 
-    float densidade1 = populacao1 / area1;
-    float densidade2 = populacao2 / area2;
-    float pibPC1 = (pib1 * 1000000000) / populacao1;
-    float pibPC2 = (pib2 * 1000000000) / populacao2;
-    float superPoder1 = (1.0f / densidade1) + populacao1 + area1 + pib1 + pontos1 + pibPC1;
-    float superPoder2 = (1.0f / densidade2) + populacao2 + area2 + pib2 + pontos2 + pibPC2;
+    // --- Cálculos ---
+    float densidade1 = (area1 != 0.0f) ? ((float)populacao1 / area1) : 0.0f;
+    float densidade2 = (area2 != 0.0f) ? ((float)populacao2 / area2) : 0.0f;
 
+    float pibPC1 = (populacao1 != 0) ? (pib1 * 1000000.0f) / populacao1 : 0.0f;
+    float pibPC2 = (populacao2 != 0) ? (pib2 * 1000000.0f) / populacao2 : 0.0f;
+
+    float superPoder1 = (densidade1 != 0.0f ? 1.0f / densidade1 : 0.0f) + populacao1 + area1 + (pib1 * 1000000.0f) + pontos1 + pibPC1;
+    float superPoder2 = (densidade2 != 0.0f ? 1.0f / densidade2 : 0.0f) + populacao2 + area2 + (pib2 * 1000000.0f) + pontos2 + pibPC2;
+
+    // --- Exibição das Cartas ---
     printf("\n===========================================================================\n");
     printf("                                  Carta 1\n");
     printf("===========================================================================\n");
-
     printf("\nEstado: %c", estado1);
     printf("\nCodigo: %s", codigo1);
     printf("\nCidade: %s", cidade1);
@@ -89,7 +94,6 @@ int main() {
     printf("\n===========================================================================\n");
     printf("                                  Carta 2\n");
     printf("===========================================================================\n");
-
     printf("\nEstado: %c", estado2);
     printf("\nCodigo: %s", codigo2);
     printf("\nCidade: %s", cidade2);
@@ -101,66 +105,107 @@ int main() {
     printf("\nPIB per Capita: %.2f", pibPC2);
     printf("\nSuper Poder 2: %.2f\n", superPoder2);
 
+    // --- Comparação ---
     printf("\n===========================================================================\n");
     printf("                             Comparacao de Cartas\n");
     printf("===========================================================================\n");
 
-    // --- Comparação de cartas ---
     int escolha, escolha2;
     printf("\nEscolha o PRIMEIRO atributo que deseja comparar:\n");
     printf("1 - Populacao\n2 - Area\n3 - PIB\n4 - Numero de pontos turisticos\n5 - Densidade demografica\n6 - PIB per capita\n7 - Super poder\nEscolha: ");
     scanf("%d", &escolha);
 
-    printf("\nEscolha o SEGUNDO atributo que deseja comparar:\n");
+    printf("\nEscolha o SEGUNDO atributo que deseja comparar (diferente do primeiro):\n");
     printf("1 - Populacao\n2 - Area\n3 - PIB\n4 - Numero de pontos turisticos\n5 - Densidade demografica\n6 - PIB per capita\n7 - Super poder\nEscolha: ");
     scanf("%d", &escolha2);
-    
+
     if (escolha2 == escolha) {
-    printf("\nVocê não pode escolher o mesmo atributo da primeira escolha.\n");
-    escolha2 = 0; // Define como inválido
+        printf("\nErro: Você não pode escolher o mesmo atributo da primeira escolha.\n");
+        printf("Segundo atributo será ignorado na comparação.\n");
+        escolha2 = 0; // marca como inválido
     }
 
-printf("\n========== RESULTADO DA COMPARACAO ==========\n");
+    int vencedorAtr1 = 0; // 1: Carta1, 2: Carta2, 0: Empate
+    int vencedorAtr2 = 0;
 
-// Calculando a pontuação somando os dois atributos escolhidos
-float pontuacao1 = 0;
-float pontuacao2 = 0;
+    // --- Comparação Primeiro Atributo ---
+    switch (escolha) {
+        case 1: if(populacao1 > populacao2) vencedorAtr1 = 1;
+                else if(populacao2 > populacao1) vencedorAtr1 = 2;
+                else vencedorAtr1 = 0;
+                break;
+        case 2: if(area1 > area2) vencedorAtr1 = 1;
+                else if(area2 > area1) vencedorAtr1 = 2;
+                else vencedorAtr1 = 0;
+                break;
+        case 3: if(pib1 > pib2) vencedorAtr1 = 1;
+                else if(pib2 > pib1) vencedorAtr1 = 2;
+                else vencedorAtr1 = 0;
+                break;
+        case 4: if(pontos1 > pontos2) vencedorAtr1 = 1;
+                else if(pontos2 > pontos1) vencedorAtr1 = 2;
+                else vencedorAtr1 = 0;
+                break;
+        case 5: if(densidade1 < densidade2) vencedorAtr1 = 1; // menor densidade vence
+                else if(densidade2 < densidade1) vencedorAtr1 = 2;
+                else vencedorAtr1 = 0;
+                break;
+        case 6: if(pibPC1 > pibPC2) vencedorAtr1 = 1;
+                else if(pibPC2 > pibPC1) vencedorAtr1 = 2;
+                else vencedorAtr1 = 0;
+                break;
+        case 7: if(superPoder1 > superPoder2) vencedorAtr1 = 1;
+                else if(superPoder2 > superPoder1) vencedorAtr1 = 2;
+                else vencedorAtr1 = 0;
+                break;
+    }
 
-// Primeiro atributo
-switch (escolha) {
-    case 1: pontuacao1 += populacao1; pontuacao2 += populacao2; break;
-    case 2: pontuacao1 += area1; pontuacao2 += area2; break;
-    case 3: pontuacao1 += pib1; pontuacao2 += pib2; break;
-    case 4: pontuacao1 += pontos1; pontuacao2 += pontos2; break;
-    case 5: pontuacao1 += 1.0 / densidade1; pontuacao2 += 1.0 / densidade2; break;
-    case 6: pontuacao1 += pibPC1; pontuacao2 += pibPC2; break;
-    case 7: pontuacao1 += superPoder1; pontuacao2 += superPoder2; break;
-}
+    // --- Comparação Segundo Atributo (se válido) ---
+    if (escolha2 != 0) {
+        switch (escolha2) {
+            case 1: if(populacao1 > populacao2) vencedorAtr2 = 1;
+                    else if(populacao2 > populacao1) vencedorAtr2 = 2;
+                    else vencedorAtr2 = 0;
+                    break;
+            case 2: if(area1 > area2) vencedorAtr2 = 1;
+                    else if(area2 > area1) vencedorAtr2 = 2;
+                    else vencedorAtr2 = 0;
+                    break;
+            case 3: if(pib1 > pib2) vencedorAtr2 = 1;
+                    else if(pib2 > pib1) vencedorAtr2 = 2;
+                    else vencedorAtr2 = 0;
+                    break;
+            case 4: if(pontos1 > pontos2) vencedorAtr2 = 1;
+                    else if(pontos2 > pontos1) vencedorAtr2 = 2;
+                    else vencedorAtr2 = 0;
+                    break;
+            case 5: if(densidade1 < densidade2) vencedorAtr2 = 1;
+                    else if(densidade2 < densidade1) vencedorAtr2 = 2;
+                    else vencedorAtr2 = 0;
+                    break;
+            case 6: if(pibPC1 > pibPC2) vencedorAtr2 = 1;
+                    else if(pibPC2 > pibPC1) vencedorAtr2 = 2;
+                    else vencedorAtr2 = 0;
+                    break;
+            case 7: if(superPoder1 > superPoder2) vencedorAtr2 = 1;
+                    else if(superPoder2 > superPoder1) vencedorAtr2 = 2;
+                    else vencedorAtr2 = 0;
+                    break;
+        }
+    }
 
-// Segundo atributo
-switch (escolha2) {
-    case 1: pontuacao1 += populacao1; pontuacao2 += populacao2; break;
-    case 2: pontuacao1 += area1; pontuacao2 += area2; break;
-    case 3: pontuacao1 += pib1; pontuacao2 += pib2; break;
-    case 4: pontuacao1 += pontos1; pontuacao2 += pontos2; break;
-    case 5: pontuacao1 += 1.0 / densidade1; pontuacao2 += 1.0 / densidade2; break;
-    case 6: pontuacao1 += pibPC1; pontuacao2 += pibPC2; break;
-    case 7: pontuacao1 += superPoder1; pontuacao2 += superPoder2; break;
-}
+    // --- Resultado Final ---
+    printf("\n===========================================================================\n");
+    printf("                             Resultado Final\n");
+    printf("===========================================================================\n");
 
-// Mostrando resultado mantendo seu estilo
-printf("\n===========================================================================\n");
-printf("                             Pontuacao Final\n");
-printf("===========================================================================\n");
-printf("Carta 1 - %s => %.2f\n", cidade1, pontuacao1);
-printf("Carta 2 - %s => %.2f\n", cidade2, pontuacao2);
+    if (vencedorAtr1 == 1 && vencedorAtr2 == 1)
+        printf("=> Carta 1 (%s) venceu em ambos os atributos!\n", cidade1);
+    else if (vencedorAtr1 == 2 && vencedorAtr2 == 2)
+        printf("=> Carta 2 (%s) venceu em ambos os atributos!\n", cidade2);
+    else
+        printf("=> Empate! Nenhuma carta venceu em ambos os atributos.\n");
 
-if (pontuacao1 > pontuacao2)
-    printf("=> Carta 1 (%s) venceu!\n", cidade1);
-else if (pontuacao2 > pontuacao1)
-    printf("=> Carta 2 (%s) venceu!\n", cidade2);
-else
-    printf("=> Empate!\n");
-printf("===========================================================================\n");
+    printf("===========================================================================\n");
     return 0;
 }
